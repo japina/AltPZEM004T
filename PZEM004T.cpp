@@ -29,7 +29,7 @@
 
 PZEM004T::PZEM004T(uint8_t receivePin, uint8_t transmitPin)
 {
-    SoftwareSerial *port = new SoftwareSerial(receivePin, transmitPin);
+    AltSoftSerial *port = new AltSoftSerial();
     port->begin(PZEM_BAUD_RATE);
     this->serial = port;
     this->_readTimeOut = PZEM_DEFAULT_READ_TIMEOUT;
@@ -134,7 +134,7 @@ bool PZEM004T::recieve(uint8_t resp, uint8_t *data)
     uint8_t buffer[RESPONSE_SIZE];
 
     if(_isSoft)
-        ((SoftwareSerial *)serial)->listen();
+        ((AltSoftSerial *)serial)->listen();
 
     unsigned long startTime = millis();
     uint8_t len = 0;

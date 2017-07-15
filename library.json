@@ -3,16 +3,17 @@
 "frameworks": "arduino",
 "keywords": "peacefair, pzem, powermeter",
 "description": "Enables communication with Peacefair PZEM-004T Energy monitor",
-"url": "https://github.com/olehs/PZEM004T",
+"url": "https://github.com/japina/PZEM004T",
 "authors": [
     {
-        "name": "Oleg Sokolov"
+        "name": "Oleg Sokolov",
+        "name": "Bostjan Jerko"
     }
 ],
 "repository":
 {
     "type": "git",
-    "url": "https://github.com/olehs/PZEM004T.git"
+    "url": "https://github.com/japina/PZEM004T.git"
 },
 "platforms": [
     "atmelavr",

@@ -7,8 +7,12 @@
 #include "WProgram.h"
 #endif
 
-#include <SoftwareSerial.h>
+#include <AltSoftSerial.h>
 #include <IPAddress.h>
+
+ #define INPUT_CAPTURE_PIN       2 // receive
+ #define OUTPUT_COMPARE_A_PIN        3 // transmit
+
 
 struct PZEMCommand {
     uint8_t command;
