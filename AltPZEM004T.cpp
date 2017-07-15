@@ -1,4 +1,4 @@
-#include "PZEM004T.h"
+#include "AltPZEM004T.h"
 
 #define PZEM_VOLTAGE (uint8_t)0xB0
 #define RESP_VOLTAGE (uint8_t)0xA0
@@ -27,7 +27,7 @@
 #define PZEM_ERROR_VALUE -1.0
 
 
-PZEM004T::PZEM004T(uint8_t receivePin, uint8_t transmitPin)
+AltPZEM004T::AltPZEM004T(uint8_t receivePin, uint8_t transmitPin)
 {
     AltSoftSerial *port = new AltSoftSerial();
     port->begin(PZEM_BAUD_RATE);
@@ -36,7 +36,7 @@ PZEM004T::PZEM004T(uint8_t receivePin, uint8_t transmitPin)
     this->_isSoft = true;
 }
 
-PZEM004T::PZEM004T(HardwareSerial *port)
+AltPZEM004T::AltPZEM004T(HardwareSerial *port)
 {
     port->begin(PZEM_BAUD_RATE);
     this->serial = port;
@@ -44,18 +44,18 @@ PZEM004T::PZEM004T(HardwareSerial *port)
     this->_isSoft = false;
 }
 
-PZEM004T::~PZEM004T()
+AltPZEM004T::~AltPZEM004T()
 {
     if(_isSoft)
         delete this->serial;
 }
 
-void PZEM004T::setReadTimeout(unsigned long msec)
+void AltPZEM004T::setReadTimeout(unsigned long msec)
 {
     _readTimeOut = msec;
 }
 
-float PZEM004T::voltage(const IPAddress &addr)
+float AltPZEM004T::voltage(const IPAddress &addr)
 {
     uint8_t data[RESPONSE_DATA_SIZE];
 
@@ -66,7 +66,7 @@ float PZEM004T::voltage(const IPAddress &addr)
     return (data[0] << 8) + data[1] + (data[2] / 10.0);
 }
 
-float PZEM004T::current(const IPAddress &addr)
+float AltPZEM004T::current(const IPAddress &addr)
 {
     uint8_t data[RESPONSE_DATA_SIZE];
 
@@ -77,7 +77,7 @@ float PZEM004T::current(const IPAddress &addr)
     return (data[0] << 8) + data[1] + (data[2] / 100.0);
 }
 
-float PZEM004T::power(const IPAddress &addr)
+float AltPZEM004T::power(const IPAddress &addr)
 {
     uint8_t data[RESPONSE_DATA_SIZE];
 
@@ -88,7 +88,7 @@ float PZEM004T::power(const IPAddress &addr)
     return (data[0] << 8) + data[1];
 }
 
-float PZEM004T::energy(const IPAddress &addr)
+float AltPZEM004T::energy(const IPAddress &addr)
 {
     uint8_t data[RESPONSE_DATA_SIZE];
 
@@ -99,19 +99,19 @@ float PZEM004T::energy(const IPAddress &addr)
     return ((uint32_t)data[0] << 16) + ((uint16_t)data[1] << 8) + data[2];
 }
 
-bool PZEM004T::setAddress(const IPAddress &newAddr)
+bool AltPZEM004T::setAddress(const IPAddress &newAddr)
 {
     send(newAddr, PZEM_SET_ADDRESS);
     return recieve(RESP_SET_ADDRESS);
 }
 
-bool PZEM004T::setPowerAlarm(const IPAddress &addr, uint8_t threshold)
+bool AltPZEM004T::setPowerAlarm(const IPAddress &addr, uint8_t threshold)
 {
     send(addr, PZEM_POWER_ALARM, threshold);
     return recieve(RESP_POWER_ALARM);
 }
 
-void PZEM004T::send(const IPAddress &addr, uint8_t cmd, uint8_t data)
+void AltPZEM004T::send(const IPAddress &addr, uint8_t cmd, uint8_t data)
 {
     PZEMCommand pzem;
 
@@ -129,7 +129,7 @@ void PZEM004T::send(const IPAddress &addr, uint8_t cmd, uint8_t data)
     serial->write(bytes, sizeof(pzem));
 }
 
-bool PZEM004T::recieve(uint8_t resp, uint8_t *data)
+bool AltPZEM004T::recieve(uint8_t resp, uint8_t *data)
 {
     uint8_t buffer[RESPONSE_SIZE];
 
@@ -167,7 +167,7 @@ bool PZEM004T::recieve(uint8_t resp, uint8_t *data)
     return true;
 }
 
-uint8_t PZEM004T::crc(uint8_t *data, uint8_t sz)
+uint8_t AltPZEM004T::crc(uint8_t *data, uint8_t sz)
 {
     uint16_t crc = 0;
     for(uint8_t i=0; i<sz; i++)
